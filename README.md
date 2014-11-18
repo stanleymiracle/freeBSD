@@ -1,4 +1,4 @@
 freeBSD
 =======
 
-A config backup
+A FreeBSD config backup
