@@ -38,11 +38,11 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("~/.config/awesome/themes/default/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -80,10 +80,13 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags = {}
+tags = {
+  names = { " eins ", " zwei ", " drei "},
+  layout = { layouts[1], layouts[4], layouts[2]}
+}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
 
@@ -97,7 +100,7 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "open editor", editor }
                                   }
                         })
 
@@ -361,13 +364,21 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
+    { rule = { class = "Xterm" },
+      properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    -- Set Firefox to always map on tags number 2 of screen 1 and switch to the tag.
+    { rule = { class = "Firefox" },
+      properties = { tag = tags[1][2], switchtotag = true } },
+    -- Set Emacs to always map on tags number 3 of screen 1 and switch to the tag.
+    { rule = { class = "Emacs" },
+      properties = { tag = tags[1][3], switchtotag = true } },
+    -- Set Xpdf to always map on tags number 3 of screen 1 and switch to the tag.
+    { rule = { class = "Xpdf" },
+      properties = { tag = tags[1][3], switchtotag = true } },
 }
 -- }}}
 
