@@ -10,6 +10,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+local vicious = require("vicious")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -51,6 +52,7 @@ editor_cmd = terminal .. " -e " .. editor
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+Alt = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
@@ -100,7 +102,6 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open editor", editor }
                                   }
                         })
 
@@ -221,6 +222,15 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
+    -- {{ Opens firefox }} --
+    awful.key({ modkey, }, "f", function() awful.util.spawn("firefox") end),
+    -- {{ Spawns emacs }} --
+    awful.key({ modkey, }, "e", function() awful.util.spawn("emacs") end),
+    -- {{ Spawns xpdf }} --
+    awful.key({ modkey, }, "d", function() awful.util.spawn("xpdf") end),
+    -- {{ Spawns slock }} --
+    awful.key({ modkey, }, "l", function() awful.util.spawn("slock") end),
+
     awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx( 1)
@@ -246,6 +256,15 @@ globalkeys = awful.util.table.join(
                 client.focus:raise()
             end
         end),
+    -- Float manipulation
+    awful.key({ modkey, Alt }, "Up", function () awful.client.moveresize( 0, -20, 0, 0) end),
+    awful.key({ modkey, "Shift" }, "Up", function () awful.client.moveresize( 0, 0, 0, -20) end),
+    awful.key({ modkey, Alt }, "Down", function () awful.client.moveresize( 0, 20, 0, 0) end),
+    awful.key({ modkey, "Shift" }, "Down", function () awful.client.moveresize( 0, 0, 0, 20) end),
+    awful.key({ modkey, Alt }, "Right", function () awful.client.moveresize( 20, 0, 0, 0) end),
+    awful.key({ modkey, "Shift" }, "Right", function () awful.client.moveresize( 0, 0, 20, 0) end),
+    awful.key({ modkey, Alt }, "Left", function () awful.client.moveresize(-20, 0, 0, 0) end),
+    awful.key({ modkey, "Shift" }, "Left", function () awful.client.moveresize( 0, 0, -20, 0) end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),

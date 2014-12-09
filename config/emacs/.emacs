@@ -1,9 +1,72 @@
 
 ;; load path
-(autoload 'load-path "~/.emacs.d/extra")
+(add-to-list 'load-path "~/.emacs.d/extra")
 
-;disable backup
+;; set up package repository
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+												 ("melpa" . "http://melpa.org/packages/")))
+
+
+;;---------------------- simple config -------------------
+(setq frame-title-format "%b - emacs")
+(setq user-full-name "Yiqing Liu")
+(setq user-mail-address "logicomiracle@gmail.com")
+
 (setq backup-inhibited t)
+(setq visible-bell t)
+(setq inhibit-startup-message t)
+(setq column-number-mode t)
+(setq mouse-yank-at-point t)
+
+(setq kill-ring-max 3000)
+(setq undo-limit 536000000)
+(setq default-fill-column 80)
+(setq browse-url-mozilla-program "firefox")
+
+(setq-default indent-tabs-mode nil)
+(setq default-tab-width 2)
+(defun range (start end step)
+	(cond
+	 ((> start end) '())
+	 (t (cons start (range (+ step start) end step)))))
+(setq tab-stop-list (mapcar (lambda (x) (* default-tab-width x)) (range 1 40 1)))
+
+(setq sentence-end "\\([¡££¡£¿]\\|¡­¡­\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*")
+(setq sentence-end-double-space nil)
+
+(setq enable-recursive-minibuffers t)
+(setq scroll-margin 3
+      scroll-conservatively 10000)
+
+(setq default-major-mode 'text-mode)
+(show-paren-mode t)
+(setq show-paren-style 'parentheses)
+(mouse-avoidance-mode 'jump)
+
+(auto-image-file-mode)
+(global-font-lock-mode t)
+
+(setq version-control t)
+(setq kept-new-versions 3)
+(setq delete-old-versions t)
+(setq kept-old-versions 2)
+(setq dired-kept-versions 1)
+
+(setq dired-recursive-copies 'top)
+(setq dired-recursive-deletes 'top)
+
+(put 'erase-buffer 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'LaTeX-hide-environment 'disabled nil)
+(put 'add-hook 'lisp-indent-function 1)
+
+;; display time
+(setq display-time-24hr-format nil)
+(display-time)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -23,6 +86,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#242424" :foreground "#f6f3e8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+
+
+
+;; ------------------- language modes -------------------
+(add-to-list 'auto-mode-alist '("\\.ss$" . scheme-mode))
+(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.el$" . emacs-lisp-mode))
 
 ;;---------------------- paredit-mode -------------------
 (autoload 'paredit-mode "paredit"

@@ -5,3 +5,4 @@ cp ~/.Xresources ~/note/freeBSD/config/shell/.Xresources
 cp ~/.shrc ~/note/freeBSD/config/shell/.shrc
 cp ~/.emacs ~/note/freeBSD/config/emacs/.emacs
 cp -r ~/.emacs.d ~/note/freeBSD/config/emacs/.emacs.d
+cp /etc/rc.conf ~/note/freeBSD/config/boot/rc.conf
